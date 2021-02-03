@@ -40,9 +40,8 @@ class MockControllerTest {
                         .header("X-Access-token", "1")
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("mock_1"))
                 .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+                .andReturn().getResponse().setCharacterEncoding("UTF-8");
         mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/mock/get")
@@ -51,9 +50,8 @@ class MockControllerTest {
                         .header("X-Access-token", "1")
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("mock_2"))
                 .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+                .andReturn().getResponse().setCharacterEncoding("UTF-8");
         mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/mock/get")
@@ -62,9 +60,8 @@ class MockControllerTest {
                         .header("X-Access-token", "1")
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("mockGet"))
                 .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+                .andReturn().getResponse().setCharacterEncoding("UTF-8");
     }
 
     @Test

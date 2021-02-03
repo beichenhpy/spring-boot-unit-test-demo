@@ -16,15 +16,15 @@ public class MockController {
     private static final Integer LEGAL_AGE = 18;
 
     @GetMapping("/get")
-    public String mockGet(@RequestParam(value = "mockParam") String mockParam){
+    public Result mockGet(@RequestParam(value = "mockParam") String mockParam){
         switch (mockParam){
             case "1":
-                return "mock_1";
+                return Result.ok("get测试1");
             case "2":
-                return "mock_2";
+                return Result.ok("get测试2");
             default:break;
         }
-        return "mockGet";
+        return Result.ok("get测试3");
     }
 
     @PostMapping("/post")

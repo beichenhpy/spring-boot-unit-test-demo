@@ -1,8 +1,8 @@
 package cn.beichenhpy.unittestdemo.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import cn.beichenhpy.unittestdemo.entity.Person;
+import cn.beichenhpy.unittestdemo.entity.Result;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author beichenhpy
@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/mock")
 public class MockController {
+    private static final Integer LEGAL_AGE = 18;
 
     @GetMapping("/get")
-    public String mockGet(String mockParam){
+    public String mockGet(@RequestParam(value = "mockParam") String mockParam){
         switch (mockParam){
             case "1":
                 return "mock_1";
@@ -24,5 +25,14 @@ public class MockController {
             default:break;
         }
         return "mockGet";
+    }
+
+    @PostMapping("/post")
+    public Result mockPost(@RequestBody Person person){
+        if (person.getAge() >= LEGAL_AGE){
+            return Result.ok("允许进入");
+        }else {
+            return Result.ok("限制进入");
+        }
     }
 }

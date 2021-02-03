@@ -12,9 +12,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @SpringBootTest
@@ -41,7 +44,7 @@ class MockControllerTest {
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
-                .andReturn().getResponse().setCharacterEncoding("UTF-8");
+                .andReturn();
         mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/mock/get")
@@ -51,7 +54,7 @@ class MockControllerTest {
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
-                .andReturn().getResponse().setCharacterEncoding("UTF-8");
+                .andReturn();
         mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/mock/get")
@@ -61,7 +64,7 @@ class MockControllerTest {
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
-                .andReturn().getResponse().setCharacterEncoding("UTF-8");
+                .andReturn();
     }
 
     @Test
@@ -78,9 +81,8 @@ class MockControllerTest {
                         .header("X-Access-token", "1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
-                //todo 这里设置为utf-8了还是不行
-                .andReturn().getResponse().setCharacterEncoding("UTF-8");
-        mockMvc
+                .andReturn();
+        MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
                         .post("/mock/post")
                         .content(JSON.toJSONString(person2))
@@ -89,5 +91,8 @@ class MockControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
+        //todo 解决办法2:使用 getContentAsString(StandardCharsets.UTF_8)
+        String contentAsString = mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8);
+        log.info(contentAsString);
     }
 }
